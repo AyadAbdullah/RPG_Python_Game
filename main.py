@@ -1,2 +1,5 @@
-Beginner_message = ("Hello Agent 47. You are here in miami to kill two"+
-                    "targets")
+class Hitman2Game:
+    def __init__(self):
+        self.rooms = [
+            
+        ]
