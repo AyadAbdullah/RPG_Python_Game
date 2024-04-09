@@ -4,7 +4,7 @@ rooms = {
     (0,0):{"description":"Miami - Hawke's Bay,New Zealand"},
     (1,0):{"description":"Hawke's Bay Safe House"},
     (1,1):{"description":"Hawke's Bay Beach"},
-    (2,0):{"description":"Miami-The Finish Line"},
+    (2,0):{"description":"Miami - The Finish Line"},
     (3,0):{"description":"Miami - Miami Beach"},
     (3,1):{"description":"Miami - Kronstadt Industries"},
     (4,0):{"description":"Miami - City Center"},
@@ -27,7 +27,7 @@ def move(current_position, direction):
         current_position = (x, y+1)
     else:
         print("You cannot move in that direction")
-        return current_position
+    return current_position
 
 def start_game():
     global current_position 
@@ -38,12 +38,16 @@ def start_game():
     print("Be cautios and plan your moves carefully")
     while True:
         display_room_description(current_position)
-        print("Which direction do you want to move?(north/south/east/west or q to quit)")
-        action = input().lower
-        if action == 'q':
+        print("What do you want to do?")
+        print("1. Move")
+        print("2. Quit")
+        choice = input().lower()
+        if choice == "2":
             print("Thanks for playing!")
             break
-        elif action in ["north","south","east","west"]:
+        elif choice == "1":
+            print("Which direction do you want to move?")
+            action = input().lower()
             current_position = move(current_position, action)
         else:
             print("Invalid action. Please choose a valid direction or 'q' to quit")
