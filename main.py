@@ -15,7 +15,7 @@
 current_position = (0, 0)
 rooms = {
     (0, 0): {
-        "description": "Miami - Hawke's Bay,New Zealand"
+        "description": "Miami - Hawke's Bay, New Zealand"
     },
     (1, 0): {
         "description": "Hawke's Bay Safe House"
@@ -90,12 +90,12 @@ def start_game():
             print("Thanks for playing!")
             break
         elif choice == "1":
-            print("Which direction do you want to move?")
+            print("Which direction do you want to move?(north, south, east, west)")
             action = input().lower()
             current_position = move(current_position, action)
         else:
             print(
-                "Invalid action. Please choose a valid direction or 'q' to quit"
+                "Invalid action. Please choose a valid direction or '2' to quit"
             )
 
 
