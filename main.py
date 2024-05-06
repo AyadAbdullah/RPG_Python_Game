@@ -3,7 +3,7 @@
 #Name:Ayad
 #Class: CS30
 #Assignment: Data Structures: RPG - Map
-#Version: V2.1(Actually 2.0)
+#Version: V3
 #######################################################################################
 """
  The following code is based on the game Hitman 2, specifically 
@@ -20,7 +20,63 @@ map_table = [["Hawke's Bay", "Hawke's Bay Beach", "Miami Beach", "Security Room"
     ["Hawke's Bay Safe House","City Center","Hotel & Expo Room","Kronstadt Industries"],
     ["Marquez Family Mansion","VIP Area","The Finish Line", "Android Soldier Room"]
 ]
-
+map_interactables = {
+    (0, 0):{
+    "description": "You have entered Hawke's Bay",
+    "interactables":["Beach Chair","Surfboard"],
+    },
+    (0, 1):{
+    "description":"You have entered at Hawke's Bay Beach",
+    "interactables":["Fishing Rod","Shovel"]
+    },
+    (0, 2):{
+    "description":"You are now at Miami Beach",
+    "interactables":[],
+    },
+    (0, 3):{
+    "description":"You entered the security room(The guards, inside, are confused",
+    "interactables":[],
+    },
+    
+    (1, 0):{
+    "description":"You are in the Hawke's Bay Safe House",
+    "interactables":[],
+    },
+    (1, 1):{
+    "description":"You have now entered the busy City Center",
+    "interactables":[],
+    },
+    (1, 2):{
+    "description":"You can choose to rest in the Hotel & Expo(obviously not in"+ 
+    "the expo)",
+    "interactables":[],
+    },
+    (1, 3):{
+    "description":"You have now entered the high-tech Kronstadt Building."+
+    " A robot greets you as you enter.",
+    "interactables":[],
+    },
+     
+    (2, 0):{
+    "description":"You are now in the tourist spot of the Marquez Family Mansion",
+    "interactables":[],
+    },
+    (2, 1):{
+    "description":"Want to relax? Well you're in the right place, The V.I.P Area.",
+    "interactables":[],
+    },
+    (2, 2):{
+    "description":"Do you want to watch a rigged race and kill the person who"+
+    "wins,well"+
+    "see for yourself",
+    "interactables":[],
+   },
+    (2, 3): {
+    "description":"",
+    "interactables":[],
+   }
+    }
+}
 max_x = len(map_table) - 1
 max_y = len(map_table[0]) - 1
 
