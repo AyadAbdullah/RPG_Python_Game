@@ -3,7 +3,7 @@
 #Name:Ayad
 #Class: CS30
 #Assignment: Data Structures: RPG - Map
-#Version: V1
+#Version: V2.1(Actually 2.0)
 #######################################################################################
 """
  The following code is based on the game Hitman 2, specifically 
@@ -16,9 +16,6 @@ import map as m
 
 current_position = (0, 0)
 
-
-
-
 map_table = [["Hawke's Bay", "Hawke's Bay Beach", "Miami Beach", "Security Room"],
     ["Hawke's Bay Safe House","City Center","Hotel & Expo Room","Kronstadt Industries"],
     ["Marquez Family Mansion","VIP Area","The Finish Line", "Android Soldier Room"]
@@ -27,7 +24,7 @@ map_table = [["Hawke's Bay", "Hawke's Bay Beach", "Miami Beach", "Security Room"
 max_x = len(map_table) - 1
 max_y = len(map_table[0]) - 1
 
-m.print_map(map_table) #Passing the above list to the map.py for exporting
+m.print_map(map_table) #Passing the above list to the map.py for exporting and tabulate
 m.ViewMap('map.txt')
 
 #FUNCTIONS------------------------------------------------------------------------------
@@ -85,9 +82,7 @@ def start_game():
             print("Thanks for playing!")
             break
         else:
-            print(
-                "Invalid action. Please choose a valid direction or '2' to quit"
-            )
+            print("Invalid action. Please choose a valid direction or '2' to quit")
 
 
 #MAIN------------------------------------------------------------------------------------
