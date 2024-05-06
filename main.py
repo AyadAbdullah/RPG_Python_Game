@@ -12,49 +12,47 @@
 #######################################################################################
 
 #IMPORTS AND GLOBAL VARIABLES-----------------------------------------------------------
-import map
+import map as m
 
 current_position = (0, 0)
 
-map_layout = {
-    (0, 0): "Hawke's Bay, New Zealand",
-    (0, 1): "Hawke's Bay Beach",
-    (0, 2): "Miami Beach",
-    (0, 3): "Security Room",
-    (1, 0): "Hawke's Bay Safe House",
-    (1, 1): "City Center",
-    (1, 2): "Hotel & Expo Room",
-    (1, 3): "Kronstadt Industries",
-    (2, 0): "Marquez Family Mansion",
-    (2, 1): "VIP Area",
-    (2, 2): "The Finish Line",
-    (2, 3): "Android Soldier Testing Room",
-}
-map.print_map(map_layout)
-map.ViewMap(map_layout,'map.txt')
+
+
+
+map_table = [["Hawke's Bay", "Hawke's Bay Beach", "Miami Beach", "Security Room"],
+    ["Hawke's Bay Safe House","City Center","Hotel & Expo Room","Kronstadt Industries"],
+    ["Marquez Family Mansion","VIP Area","The Finish Line", "Android Soldier Room"]
+]
+
+max_x = len(map_table) - 1
+max_y = len(map_table[0]) - 1
+
+m.print_map(map_table) #Passing the above list to the map.py for exporting
+m.ViewMap('map.txt')
 
 #FUNCTIONS------------------------------------------------------------------------------
 def display_room_description(current_position):
     """
     This function displays the room description based on the current position.
     """
-    room_description = map_layout[current_position]
+    x, y = current_position
+    room_description = map_table[x][y]
     print("You are in: ", room_description)
 
 
-def move(current_position, direction):
+def move(current_position, direction, max_x, max_y):
     """
     This function controls the movement of the player. Also makes sure
     that the user doesn't move outside the boundaries of the map.
     """
     x, y = current_position
-    if direction == "north" and (x - 1, y) in map_layout:
+    if direction == "north" and x>0:
         current_position = (x - 1, y)
-    elif direction == "south" and (x + 1, y) in map_layout:
+    elif direction == "south" and x < max_x:
         current_position = (x + 1, y)
-    elif direction == "west" and (x, y - 1) in map_layout:
+    elif direction == "west" and y > 0:
         current_position = (x, y - 1)
-    elif direction == "east" and (x, y + 1) in map_layout:
+    elif direction == "east" and y < max_y:
         current_position = (x, y + 1)
     else:
         print("You cannot move in that direction")
@@ -72,19 +70,20 @@ def start_game():
     print("You are Agent 47, a highly skilled assasin")
     print("Your mission is to eliminate your targets without getting caught")
     print("Be cautious and plan your moves carefully")
+
     while True:
         display_room_description(current_position)
         print("What do you want to do?")
         print("1. Move")
         print("2. Quit")
         choice = input().lower()
-        if choice == "2":
-            print("Thanks for playing!")
-            break
-        elif choice == "1":
+        if choice == "1":
             print("Which direction do you want to move?(north, south, east, west)")
             action = input().lower()
-            current_position = move(current_position, action)
+            current_position = move(current_position, action, max_x, max_y)
+        elif choice == "2":
+            print("Thanks for playing!")
+            break
         else:
             print(
                 "Invalid action. Please choose a valid direction or '2' to quit"
