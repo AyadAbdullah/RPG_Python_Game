@@ -82,8 +82,7 @@ def start_game():
             print("Thanks for playing!")
             break
         else:
-            print("Invalid action. Please choose a valid direction or '2' to quit")
-
+            print("Invalid action. Please '1' to move or '2' to quit")
 
 #MAIN------------------------------------------------------------------------------------
 if __name__ == "__main__":
