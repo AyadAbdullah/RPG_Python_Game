@@ -23,59 +23,58 @@ map_table = [["Hawke's Bay", "Hawke's Bay Beach", "Miami Beach", "Security Room"
 map_interactables = {
     (0, 0):{
     "description": "You have entered Hawke's Bay",
-    "interactables":["Beach Chair","Surfboard"],
+    "interactables":["Beach Chair", "Surfboard"],
     },
     (0, 1):{
     "description":"You have entered at Hawke's Bay Beach",
-    "interactables":["Fishing Rod","Shovel"]
+    "interactables":["Fishing Rod", "Shovel"]
     },
     (0, 2):{
     "description":"You are now at Miami Beach",
-    "interactables":[],
+    "interactables":["Beach Ball", "Beach Umbrella"],
     },
     (0, 3):{
     "description":"You entered the security room(The guards, inside, are confused",
-    "interactables":[],
+    "interactables":["Security Camera", "Keycard"],
     },
     
     (1, 0):{
     "description":"You are in the Hawke's Bay Safe House",
-    "interactables":[],
+    "interactables":["Safe", "Computer"],
     },
     (1, 1):{
     "description":"You have now entered the busy City Center",
-    "interactables":[],
+    "interactables":["Crowd", "Street Vendor"],
     },
     (1, 2):{
     "description":"You can choose to rest in the Hotel & Expo(obviously not in"+ 
     "the expo)",
-    "interactables":[],
+    "interactables":["Rest", "Explore"],
     },
     (1, 3):{
     "description":"You have now entered the high-tech Kronstadt Building."+
     " A robot greets you as you enter.",
-    "interactables":[],
+    "interactables":["Security Camera", "Keycard"],
     },
      
     (2, 0):{
     "description":"You are now in the tourist spot of the Marquez Family Mansion",
-    "interactables":[],
+    "interactables":["Guard","Lawn Mower","Ted Mendez"],
     },
     (2, 1):{
     "description":"Want to relax? Well you're in the right place, The V.I.P Area.",
-    "interactables":[],
+    "interactables":["Bar","Watch the Race"],
     },
     (2, 2):{
-    "description":"Do you want to watch a rigged race and kill the person who"+
-    "wins,well"+
-    "see for yourself",
-    "interactables":[],
+    "description":"You are now in the The Finish Line. You see a car with suspicious"+
+        " enhancements",
+    "interactables":["Racing Car", "Screwdriver"],
    },
     (2, 3): {
-    "description":"",
-    "interactables":[],
+    "description":"You entered the Android Soldier Testing room." + 
+        "There you see your target Robert Knox",
+    "interactables":["Robert Knox"],
    }
-    }
 }
 max_x = len(map_table) - 1
 max_y = len(map_table[0]) - 1
