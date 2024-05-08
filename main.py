@@ -20,7 +20,7 @@ map_table = [["Hawke's Bay", "Hawke's Bay Beach", "Miami Beach", "Security Room"
     ["Hawke's Bay Safe House","City Center","Hotel & Expo Room","Kronstadt Industries"],
     ["Marquez Family Mansion","VIP Area","The Finish Line", "Android Soldier Room"]
 ]
-map_interactables = {
+map_description = {
     (0, 0):{
     "description": "You have entered Hawke's Bay",
     "interactables":["Beach Chair", "Surfboard"],
@@ -58,7 +58,7 @@ map_interactables = {
     },
      
     (2, 0):{
-    "description":"You are now in the tourist spot of the Marquez Family Mansion",
+    "description":"You are now in the Marquez Family Mansion",
     "interactables":["Guard","Lawn Mower","Ted Mendez"],
     },
     (2, 1):{
@@ -83,9 +83,20 @@ m.print_map(map_table) #Passing the above list to the map.py for exporting and t
 m.ViewMap('map.txt')
 
 #FUNCTIONS------------------------------------------------------------------------------
+def display_room_info(current_position):
+    """
+    This function will show the user the interactables and description of the room
+    they enter.
+    """
+    if current_position in map_description:
+        room_info = map_description[current_position] 
+        print(room_info["description"])
+        print("Interactables:", room_info["interactables"])
+
+
 def display_room_description(current_position):
     """
-    This function displays the room description based on the current position.
+    This function describes the room description based on the current position.
     """
     x, y = current_position
     room_description = map_table[x][y]
@@ -124,7 +135,7 @@ def start_game():
     print("Be cautious and plan your moves carefully")
 
     while True:
-        display_room_description(current_position)
+        display_room_info(current_position)
         print("What do you want to do?")
         print("1. Move")
         print("2. Quit")
