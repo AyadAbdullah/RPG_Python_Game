@@ -65,7 +65,7 @@ map_description = {
     },
     (2, 1):{
     "description":"Want to relax? Well you're in the right place, The V.I.P Area.",
-    "interactables":["Bar","Watch the Race"],
+    "interactables":["Bar","Watch the Race", "Poison Sierra Knox's Drink"],
     },
     (2, 2):{
     "description":"You are now in the The Finish Line. You see a car with suspicious"+
@@ -123,6 +123,16 @@ def move(current_position, direction, max_x, max_y):
         print("You cannot move in that direction")
     return current_position
 
+def user_message():
+    "Just a user message that tells user what to do."
+    print("Hello user, this is just a tutorial message.")
+    print("The following are just some guidelines for you.")
+    print("1. You can move with typing the direction you want to move in")
+    print("2. In order to do anything other than moving" +
+          " you can type the \ncoressponding number to do that action.")
+    print("Lastly, it is recommended that you extend the console table to"+
+         " view the map properly(due to large names")
+    print("Thanks for reading, hope you enjoy. \n\n\n\n")
 
 def start_game():
     """
@@ -130,7 +140,7 @@ def start_game():
     """
 
     global current_position
-
+    user_message()
     print("Welcome to Hitman 2: The Text Adventure!")
     print("You are Agent 47, a highly skilled assasin")
     print("Your mission is to eliminate your targets without getting caught")
