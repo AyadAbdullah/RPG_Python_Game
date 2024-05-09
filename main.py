@@ -12,6 +12,8 @@
 #######################################################################################
 
 #IMPORTS AND GLOBAL VARIABLES-----------------------------------------------------------
+from tabulate import tabulate
+
 import map as m
 
 current_position = (0, 0)
@@ -76,8 +78,8 @@ map_description = {
     "interactables":["Robert Knox"],
    }
 }
-max_x = len(map_table) - 1
-max_y = len(map_table[0]) - 1
+max_x = len(map_table) - 1 #Player positions
+max_y = len(map_table[0]) - 1 #Player Positions
 
 m.print_map(map_table) #Passing the above list to the map.py for exporting and tabulate
 m.ViewMap('map.txt')
@@ -138,13 +140,16 @@ def start_game():
         display_room_info(current_position)
         print("What do you want to do?")
         print("1. Move")
-        print("2. Quit")
+        print("2. View Map")
+        print("3. Quit")
         choice = input().lower()
         if choice == "1":
             print("Which direction do you want to move?(north, south, east, west)")
             action = input().lower()
             current_position = move(current_position, action, max_x, max_y)
         elif choice == "2":
+            print(tabulate(map_table, tablefmt = "grid"))
+        elif choice == "3":
             print("Thanks for playing!")
             break
         else:
