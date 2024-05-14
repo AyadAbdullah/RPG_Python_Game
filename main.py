@@ -144,7 +144,7 @@ def fish():
 def dig():
     print("")
 def inspect_racing_car():
-    print("Y")
+    print("")
 def talk_to_crew():
     print("")
 def play_ball():
@@ -159,29 +159,53 @@ def kill_guard():
     print("")
 def start_lawn_mower():
     print("")
-def interact_with_Ted_Mendez():
-    print("As you explore you see Ted Mendez.")
-    print("He is an arms dealer with connections to the targets")
-    print("What do you want to do?")
-    print("1. Kill him and take his disguise")
-    print("2. Leave him alone")
+def general_interact(character):
+    """
+    This function will control what happens when the user
+    interacts with differents characters/targets.
+    """
+    if character == "Ted Mendez":
+        print("As you explore you see Ted Mendez.")
+        print("He is an arms dealer with connections to the targets")
+        print("What do you want to do?")
+        print("1. Kill him and take his disguise")
+        print("2. Leave him alone")
+    
+        choice2 = int(input("Enter your choice(1 or 2):"))
+        if choice2 == 1:
+            print("You distract Ted Mendez to a corner, where there is leaf shredder.")
+            print("You knock him out, take his disguise and dispose his body in the" 
+                    +"leaf shredder.")
+            add_to_inventory("Ted Mendez Disguise")
+        elif choice2 == 2:
+            print("You leave him alone.")
+        else:
+            print("Invalid Entry, try again")
+    elif character == "Robert Knox":
+        if "Ted Mendez Disguise" and "Robert Knox Picture" in inventory:
+            print("You see your target Robert Knox")
+            print("He gives you a demo of how the new generation of Android"+
+                 " Soldiers shoot the target when shown their picture.")
+            print("He then asks you to try and you remember you found a picture of him"+
+                 "when you hacked the computer")
+            print("You give the picture to the Android Soldier and it identifies"+
+                 " him as target and shoots him to oblivion.")
+            print("Good work, you killed one of your targets.")
+        elif "Guard Disguise" in inventory:
+            print("You escort Robert Knox as a safetly protocol.")
+            print("Then you get him to isolate in a safe room.")
+            print("You then proceed to assinate hima and dispose of the body.")
+            print("Good work, you killed one of your targets.")
+        else:
+            print("You get caught without having a disguise.")
+            print("Mission Failed.☹️")
 
-    choice2 = int(input("Enter your choice(1 or 2):"))
-    if choice2 == 1:
-        print("You distract Ted Mendez to a corner, where there is leaf shredder.")
-        print("You knock him out, take his disguise and dispose his body in the leaf"+
-              "shredder.")
-    elif choice2 == 2:
-        print("You leave him alone.")
-    else:
-        print("Invalid Entry, try again")
+
 def order_drink():
     print("")
 def watch_race():
     print("")
 def pick_up_screwdriver():
-    print("")
-def kill_Robert_Knox():
     print("")
 
 def add_to_inventory(item):
