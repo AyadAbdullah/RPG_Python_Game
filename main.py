@@ -64,12 +64,12 @@ map_description = {
     (1, 3):{
     "description":"You have now entered the high-tech Kronstadt Building."+
     " A robot greets you as you enter.",
-    "interactables":["Security Camera", "Keycard"],
+    "interactables":["Wrench", "Hammer"],
     },
      
     (2, 0):{
     "description":"You are now in the Marquez Family Mansion",
-    "interactables":["Guard","Lawn Mower","Ted Mendez"],
+    "interactables":["Guard","Ted Mendez"],
     },
     (2, 1):{
     "description":"Want to relax? Well you're in the right place, The V.I.P Area.",
@@ -86,6 +86,10 @@ map_description = {
     "interactables":["Robert Knox"],
    }
 }
+
+targets = 0
+
+
 max_x = len(map_table) - 1 #Player positions
 max_y = len(map_table[0]) - 1 #Player Positions
 
@@ -131,83 +135,6 @@ def move(current_position, direction, max_x, max_y):
         print("You cannot move in that direction")
     return current_position
 
-def sit():
-    print("")
-def check_surfboard():
-    print("")
-def open_safe():
-    print("")
-def hack():
-    print("")
-def fish():
-    print("")
-def dig():
-    print("")
-def inspect_racing_car():
-    print("")
-def talk_to_crew():
-    print("")
-def play_ball():
-    print("")
-def rest_under_umbrella():
-    print("")
-def disable_camera():
-    print("")
-def pick_up_keycard():
-    print("")
-def kill_guard():
-    print("")
-def start_lawn_mower():
-    print("")
-def general_interact(character):
-    """
-    This function will control what happens when the user
-    interacts with differents characters/targets.
-    """
-    if character == "Ted Mendez":
-        print("As you explore you see Ted Mendez.")
-        print("He is an arms dealer with connections to the targets")
-        print("What do you want to do?")
-        print("1. Kill him and take his disguise")
-        print("2. Leave him alone")
-    
-        choice2 = int(input("Enter your choice(1 or 2):"))
-        if choice2 == 1:
-            print("You distract Ted Mendez to a corner, where there is leaf shredder.")
-            print("You knock him out, take his disguise and dispose his body in the" 
-                    +"leaf shredder.")
-            add_to_inventory("Ted Mendez Disguise")
-        elif choice2 == 2:
-            print("You leave him alone.")
-        else:
-            print("Invalid Entry, try again")
-    elif character == "Robert Knox":
-        if "Ted Mendez Disguise" and "Robert Knox Picture" in inventory:
-            print("You see your target Robert Knox")
-            print("He gives you a demo of how the new generation of Android"+
-                 " Soldiers shoot the target when shown their picture.")
-            print("He then asks you to try and you remember you found a picture of him"+
-                 "when you hacked the computer")
-            print("You give the picture to the Android Soldier and it identifies"+
-                 " him as target and shoots him to oblivion.")
-            print("Good work, you killed one of your targets.")
-        elif "Guard Disguise" in inventory:
-            print("You escort Robert Knox as a safetly protocol.")
-            print("Then you get him to isolate in a safe room.")
-            print("You then proceed to assinate hima and dispose of the body.")
-            print("Good work, you killed one of your targets.")
-        else:
-            print("You get caught without having a disguise.")
-            print("Mission Failed.☹️")
-
-
-def order_drink():
-    print("")
-def watch_race():
-    print("")
-def pick_up_screwdriver():
-    print("")
-
 def add_to_inventory(item):
     """
     Add items to the user's inventory
@@ -225,6 +152,122 @@ def view_inventory():
             print("-", item)
     else:
         print("Invenotry is empty")
+
+def increment_targets():
+    global targets
+    targets +=1
+
+def check_killed_targets():
+    global targets 
+    if targets == 2:
+        print("Mission Accomplished. Good Work.")
+        return True
+    return False 
+
+
+def extra_interactables(action1):
+    if action1 == "Beach Chair" and "Surfboard":
+        print("yes")
+    elif action1 == "Fishing Rod" and "Shovel":
+        print("no")
+    elif action1 == False:
+        print("nothing")
+    
+def open_safe():
+    print("")
+def hack():
+    print("")
+def inspect_racing_car():
+    print("")
+def talk_to_crew():
+    print("")
+def play_ball():
+    print("")
+def rest_under_umbrella():
+    print("")
+def disable_camera():
+    print("")
+def pick_up_keycard():
+    print("")
+def kill_guard():
+    print("")
+def start_lawn_mower():
+    print("")
+def general_interact_character(character):
+    """
+    This function will control what happens when the user
+    interacts with differents characters/targets.
+    """
+    global targets
+    
+    if character == "Ted Mendez":
+        print("As you explore you see Ted Mendez.")
+        print("He is an arms dealer with connections to the targets")
+        print("What do you want to do?")
+        print("1. Kill him and take his disguise")
+        print("2. Leave him alone")
+    
+        choice2 = int(input("Enter your choice(1 or 2):"))
+        if choice2 == 1:
+            print("You distract Ted Mendez to a corner, where there is leaf shredder.")
+            print("You knock him out, take his disguise and dispose his body in the" 
+                    +" leaf shredder.")
+            add_to_inventory("Ted Mendez Disguise")
+        elif choice2 == 2:
+            print("You leave him alone.")
+        else:
+            print("Invalid Entry, try again")
+    elif character == "Robert Knox":
+        if "Ted Mendez Disguise" and "Robert Knox Picture" in inventory:
+            print("You see your target Robert Knox")
+            print("He gives you a demo of how the new generation of Android"+
+                 " Soldiers shoot the target when shown their picture.")
+            print("He then asks you to try and you remember you found a picture of him"+
+                 "when you hacked the computer")
+            print("You give the picture to the Android Soldier and it identifies"+
+                 " him as target and shoots him to oblivion.")
+            print("Good work, you killed one of your targets.")
+            increment_targets()
+            check_killed_targets()
+        elif "Guard Disguise" in inventory:
+            print("You escort Robert Knox to safe room as a safetly protocol.")
+            print("Then you get him to isolate there")
+            print("You then proceed to assassinate him and dispose of the body.")
+            print("Good work, you killed one of your targets.")
+            increment_targets()
+            check_killed_targets()
+        else:
+            print("You get caught without having a disguise.")
+            print("Mission Failed.☹️")
+            exit()
+    
+    elif character == "Sierra Knox":
+        if "Guard Disguise" in inventory:
+            print("You escort Robert Knox to safe room as a safetly protocol.")
+            print("Then you get him to isolate there")
+            print("You then proceed to assassinate him and dispose of the body.")
+            print("Good work, you killed one of your targets.")
+            increment_targets()
+            check_killed_targets()
+
+        elif poison_drink == True:
+            print("Sierra Knox drinks the poisoned drink that you poisoned earlier")
+            print("Good work, you kill one of your targets")
+            increment_targets()
+            check_killed_targets()
+            
+            
+
+        
+
+def order_drink():
+    print("")
+def watch_race():
+    print("")
+def pick_up_screwdriver():
+    print("")
+
+
         
     
 def user_message():
@@ -256,7 +299,8 @@ def start_game():
         print("1. Move")
         print("2. View Map")
         print("3. Inventory")
-        print("4. Quit")
+        print("4. Interact")
+        print("5. Quit")
         choice = input().lower()
         if choice == "1":
             print("Which direction do you want to move?(north, south, east, west)")
@@ -267,6 +311,8 @@ def start_game():
         elif choice == "3":
             view_inventory()
         elif choice == "4":
+            pass 
+        elif choice == "5":
             print("Thanks for playing!")
             break
         else:
