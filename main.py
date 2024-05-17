@@ -88,6 +88,8 @@ map_description = {
 }
 
 targets = 0
+poisoned_drink = False
+racing_car_sabotaged = False
 
 
 max_x = len(map_table) - 1 #Player positions
@@ -151,48 +153,83 @@ def view_inventory():
         for item in inventory:
             print("-", item)
     else:
-        print("Invenotry is empty")
+        print("Inventory is empty")
 
 def increment_targets():
+    """
+    This functions add 1 to the global variable target, to 
+    ensure if the mission has been complete or not.
+    """
     global targets
     targets +=1
 
 def check_killed_targets():
+    """
+    This function checks if both the targets have been killed or not.
+    """
+    
     global targets 
     if targets == 2:
         print("Mission Accomplished. Good Work.")
         return True
     return False 
 
-
-def extra_interactables(action1):
-    if action1 == "Beach Chair" and "Surfboard":
+def extra_interactables(action):
+    """
+    This function controls just the interactables that are not
+    important. 
+    """
+    if action == "Beach Chair": 
+        print("hahaha")
+    elif action == "Surfboard":
         print("yes")
-    elif action1 == "Fishing Rod" and "Shovel":
+    elif action == "Fishing Rod": 
+        print("Heheheheh")
+    elif action == "Shovel":
         print("no")
-    elif action1 == False:
+    elif action == "Beach Ball": 
+        print("heeh")
+    elif action == "Beach Umbrella":
         print("nothing")
-    
-def open_safe():
-    print("")
-def hack():
-    print("")
-def inspect_racing_car():
-    print("")
-def talk_to_crew():
-    print("")
-def play_ball():
-    print("")
-def rest_under_umbrella():
-    print("")
-def disable_camera():
-    print("")
-def pick_up_keycard():
-    print("")
-def kill_guard():
-    print("")
-def start_lawn_mower():
-    print("")
+    elif action == "Crowd": 
+        print("gg")
+    elif action =="Street Vendor":
+        print("stop yellowlining")
+    elif action == "Rest":
+        print("Chelsea BTW")
+    elif action == "Explore":
+        print("fs in the chat")
+    elif action == "Bar":
+        print("hello world")
+    else:
+        print("Not a valid interactable object")
+
+
+def actual_interact(action2):
+    if action2 == "Security Camera".lower:
+        print("u")
+    elif action2 == "Keycard".lower:
+        print("k")
+    elif action2 == "Safe".lower:
+        print("h")
+    elif action2 == "Computer".lower:
+        print("j")
+    elif action2 == "Wrench".lower:
+        print("l")
+    elif action2 == "Hammer".lower:
+        print("U")
+    elif action2 == "Poison Drink" or action2 == "Poison Sierra Knox's Drink".lower:
+        print("t")
+    elif action2 == "Watch Race".lower:
+        print("True or False")
+    elif action2 == "Screwdriver".lower:
+        print("gg")
+    elif action2 == "Racing Car".lower:
+        print("Give options")
+    elif action2 == "Guard".lower:
+        print("y")
+
+
 def general_interact_character(character):
     """
     This function will control what happens when the user
@@ -256,19 +293,7 @@ def general_interact_character(character):
             increment_targets()
             check_killed_targets()
             
-            
 
-        
-
-def order_drink():
-    print("")
-def watch_race():
-    print("")
-def pick_up_screwdriver():
-    print("")
-
-
-        
     
 def user_message():
     "Just a user message that tells user what to do."
