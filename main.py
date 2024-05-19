@@ -18,17 +18,14 @@ import map as m
 
 current_position = (0, 0)
 
-map_table = [[
-    "Hawke's Bay", "Hawke's Bay Beach", "Miami Beach", "Security Room"
-],
-             [
-                 "Hawke's Bay Safe House", "City Center", "Hotel & Expo Room",
-                 "Kronstadt Industries"
-             ],
-             [
-                 "Marquez Family Mansion", "VIP Area", "The Finish Line",
-                 "Android Soldier Room"
-             ]]
+map_table = [
+    [
+    "Hawke's Bay", "Hawke's Bay Beach", "Miami Beach", "Security Room"],
+             ["Hawke's Bay Safe House", "City Center", "Hotel & Expo Room",
+                 "Kronstadt Industries"],
+             ["Marquez Family Mansion", "VIP Area", "The Finish Line",
+                 "Android Soldier Room"]
+            ]
 
 inventory = []
 
@@ -47,7 +44,7 @@ map_description = {
     },
     (0, 3): {
         "description":
-        "You entered the security room(The guards, inside, are confused",
+        "You entered the security room(The guards, inside, are confused)",
         "interactables": ["Security Camera", "Keycard"],
     },
     (1, 0): {
@@ -79,10 +76,11 @@ map_description = {
         "Want to relax? Well you're in the right place, The V.I.P Area.",
         "interactables":
         ["Bar", "Watch the Race", "Poison Sierra Knox's Drink"],
+        "conditional_interactable" : ["Sierra Knox"]
     },
     (2, 2): {
         "description":
-        "You are now in the The Finish Line. You see a car with suspicious" +
+        "You are now in the The Finish Line pit stop. You see a car with suspicious" +
         " enhancements",
         "interactables": ["Racing Car", "Screwdriver"],
     },
@@ -91,11 +89,21 @@ map_description = {
         "There you see your target Robert Knox",
         "interactables": ["Robert Knox"],
     }
-}
+}#Room description and interactables
 
 targets = 0
 poisoned_drink = False
 racing_car_sabotaged = False
+
+actual_interact_list = ["Security Camera", "Keycard", "Safe", "Computer", "Wrench",
+      "Hammer", "Poison Drink", "Poison Sierra Knox's Drink",
+      "Watch Race", "Screwdriver", "Racing Car", "Guard"]
+
+extra_interact_list = ["Beach Chair", "Surfboard", "Fishing Rod", "Shovel", 
+   "Beach Ball", "Beach Umbrella", "Crowd", "Street Vendor",
+  "Rest", "Explore", "Bar"]
+
+character_list = ["Ted Mendez", "Robert Knox", "Sierra Knox"]
 
 max_x = len(map_table) - 1  #Player positions
 max_y = len(map_table[0]) - 1  #Player Positions
@@ -113,6 +121,13 @@ def display_room_info(current_position):
     """
     if current_position in map_description:
         room_info = map_description[current_position]
+        interactables = room_info["interactables"][:]
+        
+        #Check for Sierra Knox's status
+        if "conditional interactable" in room_info: 
+            if current_position == (2, 1) and not (poisoned_drink or racing_car_sabotaged):
+                interactables.extend(room_info["conditional_interactables"])
+
         print(room_info["description"])
         print("Interactables:", room_info["interactables"])
 
@@ -186,75 +201,144 @@ def check_killed_targets():
     return False
 
 
+
 def extra_interactables(action1):
     """
     This function controls just the interactables that are not
     important. 
     """
-    extra_list = [
-        "Beach Chair",
-    ]
+    
     if action1 == "Beach Chair":
-        print("hahaha")
+        print("You sit in the Beach chair and enjoy for a moment, before realising"+
+             " you are here to kill.")
+        
     elif action1 == "Surfboard":
-        print("yes")
+        print("Oh come on! You gotta go kill you're targets.")
+        remove_interactable(current_position, "Surfboard")
     elif action1 == "Fishing Rod":
-        print("Heheheheh")
+        print("You go fishing and catch a fish.")
+        add_to_inventory("Dead Fish")
     elif action1 == "Shovel":
-        print("no")
+        add_to_inventory("Shovel")
+        remove_interactable(current_position, "Shovel")
     elif action1 == "Beach Ball":
-        print("heeh")
+        print("Sorry, I know you want to have fun, but you are on an assination"+
+             " mission, so don't mess around.")
+        remove_interactable(current_position, "Beach Ball")
     elif action1 == "Beach Umbrella":
-        print("nothing")
+        print("You sit under the umbrella and get up immediately when a voice"+ 
+              "whispers  '...targetsssss' ")
     elif action1 == "Crowd":
-        print("gg")
+        print("You interact with the crowd and socialize? You then remember"+
+             " you're here to assinate 2 people.")
     elif action1 == "Street Vendor":
-        print("stop yellowlining")
+        print("You bribe the street vendor and take all his money.")
     elif action1 == "Rest":
-        print("Chelsea BTW")
+        print(" You book a hotel room and decide to rest in it.")
+        print(" To the user: you probably should have known what will")
+        print(" happen when you selected this.")
+        exit()
     elif action1 == "Explore":
-        print("fs in the chat")
+        print("You look at multiple inventions of the Kronstadt Industries")
     elif action1 == "Bar":
-        print("hello world")
+        print("You almost drank a shot but gladly restrained. Remember drinking is "+
+              " haram.")
     else:
         print("Not a valid interactable object")
 
 
 def actual_interact(action2):
     global poisoned_drink, racing_car_sabotaged
-    actual_list = []
-    if action2 == "Security Camera".lower:
-        print("u")
-    elif action2 == "Keycard".lower:
-        print("k")
-    elif action2 == "Safe".lower:
-        print("h")
-    elif action2 == "Computer".lower:
-        print("j")
-    elif action2 == "Wrench".lower:
-        print("l")
-    elif action2 == "Hammer".lower:
-        print("U")
-    elif action2 == "Poison Drink" or action2 == "Poison Sierra Knox's Drink".lower:
-        print("t")
+
+    
+    if action2 == "Security Camera":
+        print("You disable the camera")
+    elif action2 == "Keycard":
+        print("You find some idiot guard's lost keycard. You pick it up")
+        add_to_inventory("Keycard")
+        remove_interactable(current_position, "Keycard")
+    elif action2 == "Safe":
+        print("You open the safe and find important documents.")
+        remove_interactable(current_position, "Safe")
+    elif action2 == "Computer":
+        print("You hack the computer and find a photo of Robert Knox."+
+             "You print it out and keep it with you.")
+        add_to_inventory("Robert Knox's picture")
+    elif action2 == "Wrench":
+        add_to_inventory("Wrench")
+        remove_interactable(current_position, "Wrench")
+    elif action2 == "Hammer":
+        add_to_inventory("Hammer")
+        remove_interactable(current_position, "Hammer")
+    elif action2 == "Poison Drink" or action2 == "Poison Sierra Knox's Drink":
+        print("You see a VIP table with a cup that says"+
+             " 'Congrats Sierra for your win!',"+
+             " knowing she is your target you poison the drink in secret.")
         poisoned_drink = True
-    elif action2 == "Watch Race".lower:
-        print("True or False")
-    elif action2 == "Screwdriver".lower:
-        print("gg")
-    elif action2 == "Racing Car".lower:
-        print("Give options")
-        #elif racing car sabotaged = True
-    elif action2 == "Guard".lower:
-        print("y")
+    
+    elif action2 == "Watch Race":
+        if not racing_car_sabotaged:
+            print("You watch the main spectacle of the venue.")
+            print("When the racers names are celled out you see Sierra Knox, one of"+
+                  " your targets")
+            print("You realise you could have sabotaged the car and killed her and"+
+                 " made it look like an accident")
+            print("Anyways there are more ways to kill. ( ͡❛ ͜ʖ ͡❛)✌")
+        elif racing_car_sabotaged:
+            print("You watch the main spectacle of the venue.")
+            print("When the racers names are celled out you see Sierra Knox, one of"+
+                  " your targets")
+            print("You remember you sabotaged the racing car with the name Sierra Knox")
+            print("You smile and wait for the fun to happen")
+            print("As soon as the announcer says GO! nothing happens.")
+            print("A few laps go by and all of a sudden you see Sierra Knox's car turning"
+                 +" the corner and you see it loses control and crashes and explodes"
+                 + "immediately. Good kill ( ͡❛ ͜ʖ ͡❛)👌")
+            increment_targets()
+        else:
+            pass
+    
+    elif action2 == "Screwdriver":
+        add_to_inventory("Screwdriver")
+        remove_interactable(current_position, "Screwdriver")
+        
+    elif action2 == "Racing Car":
+        print("As you decide to take a closer look at the car, you find it is none"
+             + " other than Sierra Knox's, one of your targets?")
+        sabtoage = input("What do you want to do? sabotage or pass").lower
 
-
-def interact():
-    user_interact = input(
-        "Which objects/character would you like to interact?")
-    extra_interactables(user_interact)
-    actual_interact(user_interact)
-
+        if sabtoage == "sabotage":
+            print("You sabotaged the car, now you can wait and see what will happen"+
+                 " when you watch the race.")
+            racing_car_sabotaged = True
+        else:
+            print("( ͡❛  ͟ʖ ͡❛)")
+    
+    elif action2 == "Guard":
+        if "Hammer" in inventory or "Wrench" in inventory or " Shovel" in inventory:
+            print("You either have a hammer or a wrench or a shovel.")
+            kill_action = input("Which one do you want to use to kill the guard?")
+        
+            if kill_action == "Hammer":
+                print("You beat the guard with the hammer and kill him"+ 
+                      "and take his disguise.")
+                add_to_inventory("Guard Disguise")
+            elif kill_action == "Wrench":
+                print("You beat the guard with the wrench and kill him"+ 
+                      "and take his disguise.")
+                add_to_inventory("Guard Disguise")
+            elif kill_action == "Shovel" in inventory:
+                print("You hit the guard with the shovel and keep hitting his head until he"+ 
+                "dies. You then take his disguise.")
+                add_to_inventory("Guard Disguise")
+            else:
+                print("You just punch him to death")
+        else:
+            print("You bring the guard to a corner and kill him")
+            add_to_inventory("Guard Disguise")
+        
+    else:
+        print("Not a valid interactable object")
 
 def general_interact_character(character):
     """
@@ -276,15 +360,16 @@ def general_interact_character(character):
                 "You distract Ted Mendez to a corner, where there is leaf shredder."
             )
             print(
-                "You knock him out, take his disguise and dispose his body in the"
+                "You then knock him out, take his disguise and dispose his body in the"
                 + " leaf shredder.")
             add_to_inventory("Ted Mendez Disguise")
+            remove_interactable(current_position, "Ted Mendez")
         elif choice2 == 2:
             print("You leave him alone.")
         else:
             print("Invalid Entry, try again")
     elif character == "Robert Knox":
-        if "Ted Mendez Disguise" and "Robert Knox Picture" in inventory:
+        if "Ted Mendez Disguise" and "Robert Knox's picture" in inventory:
             print("You see your target Robert Knox")
             print("He gives you a demo of how the new generation of Android" +
                   " Soldiers shoot the target when shown their picture.")
@@ -297,6 +382,7 @@ def general_interact_character(character):
             print("Good work, you killed one of your targets.")
             increment_targets()
             check_killed_targets()
+            remove_interactable(current_position, "Robert Knox")
         elif "Guard Disguise" in inventory:
             print("You escort Robert Knox to safe room as a safetly protocol.")
             print("Then you get him to isolate there")
@@ -305,6 +391,7 @@ def general_interact_character(character):
             print("Good work, you killed one of your targets.")
             increment_targets()
             check_killed_targets()
+            remove_interactable(current_position, "Robert Knox")
         else:
             print("You get caught without having a disguise.")
             print("Mission Failed.☹️")
@@ -319,15 +406,36 @@ def general_interact_character(character):
             print("Good work, you killed one of your targets.")
             increment_targets()
             check_killed_targets()
+            remove_interactable(current_position, "Sierra Knox")
 
-        elif poisoned_drink is True:
+        elif poisoned_drink:
             print(
                 "Sierra Knox drinks the poisoned drink that you poisoned earlier"
             )
             print("Good work, you kill one of your targets")
             increment_targets()
             check_killed_targets()
+            remove_interactable(current_position, "Sierra Knox")
 
+def interact():
+    user_interact = input(
+        "Which objects/character would you like to interact?")
+    if user_interact in extra_interact_list:
+        extra_interactables(user_interact)
+    elif user_interact in actual_interact_list:
+        actual_interact(user_interact)
+    elif user_interact in character_list:
+        general_interact_character(user_interact)
+
+
+def remove_interactable(current_position1, interactable):
+    """
+    Remove an interactable object/character after interacted with
+    """
+    if current_position in map_description:
+        room_info = map_description[current_position]
+        if interactable in room_info["interactables"]:
+            room_info["interactables"].remove(interactable)
 
 def user_message():
     "Just a user message that tells user what to do."
@@ -375,12 +483,12 @@ def start_game():
         elif choice == "3":
             view_inventory()
         elif choice == "4":
-            pass
+            interact()
         elif choice == "5":
             print("Thanks for playing!")
             break
         else:
-            print("Invalid action. Please '1' to move or '2' to quit")
+            print("Invalid action. Please select correct key to do the desired action")
 
 
 #MAIN------------------------------------------------------------------------------------
