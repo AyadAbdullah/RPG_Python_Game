@@ -279,7 +279,7 @@ def actual_interact(action2):
     elif action2 == "Watch Race":
         if not racing_car_sabotaged:
             print("You watch the main spectacle of the venue.")
-            print("When the racers names are celled out you see Sierra Knox, one of"+
+            print("When the racers names are called out you see Sierra Knox, one of"+
                   " your targets")
             print("You realise you could have sabotaged the car and killed her and"+
                  " made it look like an accident")
@@ -293,7 +293,7 @@ def actual_interact(action2):
             print("As soon as the announcer says GO! nothing happens.")
             print("A few laps go by and all of a sudden you see Sierra Knox's car turning"
                  +" the corner and you see it loses control and crashes and explodes"
-                 + "immediately. Good kill ( ͡❛ ͜ʖ ͡❛)👌")
+                 + " immediately. Good kill ( ͡❛ ͜ʖ ͡❛)👌")
             increment_targets()
         else:
             pass
@@ -305,9 +305,9 @@ def actual_interact(action2):
     elif action2 == "Racing Car":
         print("As you decide to take a closer look at the car, you find it is none"
              + " other than Sierra Knox's, one of your targets?")
-        sabtoage = input("What do you want to do? sabotage or pass").lower
+        sabotage = input("What do you want to do? sabotage or pass?")
 
-        if sabtoage == "sabotage":
+        if sabotage == "sabotage":
             print("You sabotaged the car, now you can wait and see what will happen"+
                  " when you watch the race.")
             racing_car_sabotaged = True
@@ -323,19 +323,24 @@ def actual_interact(action2):
                 print("You beat the guard with the hammer and kill him"+ 
                       "and take his disguise.")
                 add_to_inventory("Guard Disguise")
+                remove_interactable(current_position, "Guard")
             elif kill_action == "Wrench":
                 print("You beat the guard with the wrench and kill him"+ 
                       "and take his disguise.")
                 add_to_inventory("Guard Disguise")
+                remove_interactable(current_position, "Guard")
             elif kill_action == "Shovel" in inventory:
-                print("You hit the guard with the shovel and keep hitting his head until he"+ 
-                "dies. You then take his disguise.")
+                print("You hit the guard with the shovel and keep hitting his head"+
+                      "until he dies. You then take his disguise.")
                 add_to_inventory("Guard Disguise")
+                remove_interactable(current_position, "Guard")
             else:
                 print("You just punch him to death")
+                remove_interactable(current_position, "Guard")
         else:
             print("You bring the guard to a corner and kill him")
             add_to_inventory("Guard Disguise")
+            remove_interactable(current_position, "Guard")
         
     else:
         print("Not a valid interactable object")
@@ -371,11 +376,12 @@ def general_interact_character(character):
     elif character == "Robert Knox":
         if "Ted Mendez Disguise" and "Robert Knox's picture" in inventory:
             print("You see your target Robert Knox")
+            print("He recognizes you as Ted Mendez.")
             print("He gives you a demo of how the new generation of Android" +
-                  " Soldiers shoot the target when shown their picture.")
+                  " Soldiers that shoot their target when shown their picture.")
             print(
-                "He then asks you to try and you remember you found a picture of him"
-                + "when you hacked the computer")
+                "He then asks you to try and then you remember you found a picture of him"
+                + " when you hacked the computer")
             print(
                 "You give the picture to the Android Soldier and it identifies"
                 + " him as target and shoots him to oblivion.")
@@ -432,7 +438,7 @@ def remove_interactable(current_position1, interactable):
     """
     Remove an interactable object/character after interacted with
     """
-    if current_position in map_description:
+    if current_position1 in map_description:
         room_info = map_description[current_position]
         if interactable in room_info["interactables"]:
             room_info["interactables"].remove(interactable)
