@@ -14,7 +14,7 @@
 #IMPORTS AND GLOBAL VARIABLES-----------------------------------------------------------
 from tabulate import tabulate
 
-import map as m
+import map
 
 current_position = (0, 0)
 
@@ -108,9 +108,7 @@ character_list = ["Ted Mendez", "Robert Knox", "Sierra Knox"]#For character inte
 max_x = len(map_table) - 1  #Player positions
 max_y = len(map_table[0]) - 1  #Player Positions
 
-m.print_map(map_table
-            )  #Passing the above list to the map.py for exporting and tabulate
-m.ViewMap('map.txt')
+
 
 
 #FUNCTIONS------------------------------------------------------------------------------
