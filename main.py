@@ -25,9 +25,9 @@ map_table = [
                  "Kronstadt Industries"],
              ["Marquez Family Mansion", "VIP Area", "The Finish Line",
                  "Android Soldier Room"]
-            ]
+            ]#Map List for Table
 
-inventory = []
+inventory = []#Inventory List
 
 map_description = {
     (0, 0): {
@@ -97,13 +97,13 @@ racing_car_sabotaged = False
 
 actual_interact_list = ["Security Camera", "Keycard", "Safe", "Computer", "Wrench",
       "Hammer", "Poison Drink", "Poison Sierra Knox's Drink",
-      "Watch Race", "Screwdriver", "Racing Car", "Guard"]
+      "Watch Race", "Screwdriver", "Racing Car", "Guard"]#for actual interact
 
 extra_interact_list = ["Beach Chair", "Surfboard", "Fishing Rod", "Shovel", 
    "Beach Ball", "Beach Umbrella", "Crowd", "Street Vendor",
-  "Rest", "Explore", "Bar"]
+  "Rest", "Explore", "Bar"]#for extra interact
 
-character_list = ["Ted Mendez", "Robert Knox", "Sierra Knox"]
+character_list = ["Ted Mendez", "Robert Knox", "Sierra Knox"]#For character interact
 
 max_x = len(map_table) - 1  #Player positions
 max_y = len(map_table[0]) - 1  #Player Positions
@@ -179,7 +179,10 @@ def view_inventory():
     else:
         print("Inventory is empty")
 
-
+def remove_from_inventory(item):
+    if item in inventory:
+        inventory.remove(item)
+    
 def increment_targets():
     """
     This functions add 1 to the global variable target, to 
@@ -217,7 +220,7 @@ def extra_interactables(action1):
         remove_interactable(current_position, "Surfboard")
     elif action1 == "Fishing Rod":
         print("You go fishing and catch a fish.")
-        add_to_inventory("Dead Fish")
+        add_to_inventory("Fish")
     elif action1 == "Shovel":
         add_to_inventory("Shovel")
         remove_interactable(current_position, "Shovel")
@@ -258,8 +261,11 @@ def actual_interact(action2):
         add_to_inventory("Keycard")
         remove_interactable(current_position, "Keycard")
     elif action2 == "Safe":
-        print("You open the safe and find important documents.")
-        remove_interactable(current_position, "Safe")
+        if "Keycard" in inventory:
+            print("You open the safe with the keycard and find important documents.")
+            remove_interactable(current_position, "Safe")
+        else:
+            print("You need a keycard to open the safe.")
     elif action2 == "Computer":
         print("You hack the computer and find a photo of Robert Knox."+
              "You print it out and keep it with you.")
@@ -305,7 +311,7 @@ def actual_interact(action2):
     elif action2 == "Racing Car":
         print("As you decide to take a closer look at the car, you find it is none"
              + " other than Sierra Knox's, one of your targets?")
-        sabotage = input("What do you want to do? sabotage or pass?")
+        sabotage = input("What do you want to do? sabotage or pass?").lower()
 
         if sabotage == "sabotage":
             print("You sabotaged the car, now you can wait and see what will happen"+
@@ -315,30 +321,24 @@ def actual_interact(action2):
             print("( ͡❛  ͟ʖ ͡❛)")
     
     elif action2 == "Guard":
-        if "Hammer" in inventory or "Wrench" in inventory or " Shovel" in inventory:
-            print("You either have a hammer or a wrench or a shovel.")
+        weapons = ["Hammer", "Wrench", "Shovel", "Fish"] 
+        available_weapons = [weapon for weapon in weapons if weapon in inventory]
+        
+        if available_weapons:
+            print(f"You have {' , '.join(available_weapons)}")
             kill_action = input("Which one do you want to use to kill the guard?")
         
-            if kill_action == "Hammer":
-                print("You beat the guard with the hammer and kill him"+ 
-                      "and take his disguise.")
-                add_to_inventory("Guard Disguise")
-                remove_interactable(current_position, "Guard")
-            elif kill_action == "Wrench":
-                print("You beat the guard with the wrench and kill him"+ 
-                      "and take his disguise.")
-                add_to_inventory("Guard Disguise")
-                remove_interactable(current_position, "Guard")
-            elif kill_action == "Shovel" in inventory:
-                print("You hit the guard with the shovel and keep hitting his head"+
-                      "until he dies. You then take his disguise.")
+            if kill_action in available_weapons:
+                print(f"You beat the guard with the {kill_action} and kill him"+ 
+                      " and take his disguise.")
                 add_to_inventory("Guard Disguise")
                 remove_interactable(current_position, "Guard")
             else:
                 print("You just punch him to death")
+                add_to_inventory("Guard Disguise")
                 remove_interactable(current_position, "Guard")
         else:
-            print("You bring the guard to a corner and kill him")
+            print("You bring the guard to a corner and punch him to death.")
             add_to_inventory("Guard Disguise")
             remove_interactable(current_position, "Guard")
         
