@@ -1,6 +1,7 @@
 #Map Module
 from tabulate import tabulate
 
+map_file = 'map.txt'
 
 class Map:
     def __init__(self, map_layout, map_file='map.txt'):
