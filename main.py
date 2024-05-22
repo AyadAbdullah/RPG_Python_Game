@@ -13,8 +13,8 @@
 
 #IMPORTS AND GLOBAL VARIABLES-----------------------------------------------------------
 
-from Interact import interact as i
-from Inventory import inventory as inv
+from Interact import Interact
+from Inventory import Inventory
 from map import Map
 
 current_position = (0, 0)
@@ -31,7 +31,7 @@ map_table = [
 map_description = {
     (0, 0): {
         "description": "You have entered Hawke's Bay",
-        "interactables": ["Beach Chair", "Surfboard"],
+        
     },
     (0, 1): {
         "description": "You have entered at Hawke's Bay Beach",
@@ -96,6 +96,9 @@ racing_car_sabotaged = False
 
 game_map = Map(map_table)
 game_map.print_map()
+game_inventory = Inventory()
+game_interact = Interact()
+
 
 max_x = len(map_table) - 1  #Player positions
 max_y = len(map_table[0]) - 1  #Player Positions
@@ -131,8 +134,9 @@ def display_room_info(current_position):
         interactables = room_info["interactables"][:]
 
         #Check for Sierra Knox's status
-        if "conditional interactable" in room_info: 
-            if current_position == (2, 1) and not (poisoned_drink or racing_car_sabotaged):
+        if "conditional interactable" in room_info and \ 
+            current_position == (2, 1) and \ 
+                not (poisoned_drink or racing_car_sabotaged):
                 interactables.extend(room_info["conditional_interactables"])
 
         print(room_info["description"])
@@ -211,7 +215,7 @@ def start_game():
         elif choice == "2":
             game_map.view_map()
         elif choice == "3":
-            view_inventory()
+            game_inventory.view_inventory()
         elif choice == "4":
             interact()
         elif choice == "5":
