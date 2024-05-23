@@ -134,9 +134,8 @@ def display_room_info(current_position):
         interactables = room_info["interactables"][:]
 
         #Check for Sierra Knox's status
-        if "conditional interactable" in room_info and \ 
-            current_position == (2, 1) and \ 
-                not (poisoned_drink or racing_car_sabotaged):
+        if ("conditional interactable" in room_info and current_position == (2, 1)
+            and  not (poisoned_drink or racing_car_sabotaged)):
                 interactables.extend(room_info["conditional_interactables"])
 
         print(room_info["description"])
@@ -211,13 +210,13 @@ def start_game():
                 "Which direction do you want to move?(north, south, east, west)"
             )
             action = input().lower()
-            current_position = m.move(current_position, action, max_x, max_y)
+            current_position = move(current_position, action, max_x, max_y)
         elif choice == "2":
             game_map.view_map()
         elif choice == "3":
             game_inventory.view_inventory()
         elif choice == "4":
-            interact()
+            game_interact.interact()
         elif choice == "5":
             print("Thanks for playing!")
             break
