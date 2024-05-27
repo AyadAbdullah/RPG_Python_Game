@@ -15,7 +15,7 @@
 
 from Interact import Interact
 from Inventory import Inventory
-from map import Map, map_description, map_table
+from map import Map, map_table
 from Move import Move
 
 #Room description and interactables
