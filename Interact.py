@@ -123,12 +123,11 @@ class Interact:
             if choice2 == 1:
                 print(
                     "You distract Ted Mendez to a corner, where there is leaf" 
-                    +"shredder."
+                    +" shredder."
                 )
                 print(
                     "You then knock him out, take his disguise and dispose his"+ 
-                    " body in the"
-                    + " leaf shredder.")
+                    " body in the leaf shredder.")
                 self.inventory.add_to_inventory("Ted Mendez Disguise")
                 self.remove_interactable(current_position, "Ted Mendez")
             elif choice2 == 2:
@@ -170,7 +169,7 @@ class Interact:
         elif character == "Sierra Knox":
             if "Guard Disguise" in self.inventory.inventory:
                 print("You escort Sierra Knox to a safe room as a safely protocol.")
-                print("Then you get him to isolate there")
+                print("Then you get her to isolate there")
                 print(
                     "You then proceed to assassinate her and dispose of the body.")
                 print("Good work, you killed one of your targets.")

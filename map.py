@@ -37,7 +37,7 @@ map_description = {
     },
     (1, 2): {
     "description":
-    "You arrive at the hotel, you see guests taking pictures and you see"+
+    "You arrive at the Hotel & Expo, you see guests taking pictures and you see"+
     " the expo where lies the great inventions made by the Kronstadt Industries.",
     },
     (1, 3): {

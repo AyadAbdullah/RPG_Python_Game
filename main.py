@@ -3,7 +3,7 @@
 #Name:Ayad
 #Class: CS30
 #Assignment: Data Structures: RPG - Map
-#Version: V3
+#Version: V4
 #######################################################################################
 """
  The following code is based on the game Hitman 2, specifically 
