@@ -15,80 +15,9 @@
 
 from Interact import Interact
 from Inventory import Inventory
-from map import Map
+from map import Map, map_description, map_table
 
-current_position = (0, 0)
-
-map_table = [
-             ["Hawke's Bay", "Hawke's Bay Beach", "Miami Beach", "Security Room"],
-             ["Hawke's Bay Safe House", "City Center", "Hotel & Expo Room",
-                 "Kronstadt Industries"],
-             ["Marquez Family Mansion", "VIP Area", "The Finish Line",
-                 "Android Soldier Room"]
-            ]#Map List for Table
-
-
-map_description = {
-    (0, 0): {
-        "description": "You have entered Hawke's Bay",
-        
-    },
-    (0, 1): {
-        "description": "You have entered at Hawke's Bay Beach",
-        "interactables": ["Fishing Rod", "Shovel"]
-    },
-    (0, 2): {
-        "description": "You are now at Miami Beach",
-        "interactables": ["Beach Ball", "Beach Umbrella"],
-    },
-    (0, 3): {
-        "description":
-        "You entered the security room(The guards, inside, are confused)",
-        "interactables": ["Security Camera", "Keycard"],
-    },
-    (1, 0): {
-        "description": "You are in the Hawke's Bay Safe House",
-        "interactables": ["Safe", "Computer"],
-    },
-    (1, 1): {
-        "description": "You have now entered the busy City Center",
-        "interactables": ["Crowd", "Street Vendor"],
-    },
-    (1, 2): {
-        "description":
-        "You can choose to rest in the Hotel & Expo(obviously not in" +
-        "the expo)",
-        "interactables": ["Rest", "Explore"],
-    },
-    (1, 3): {
-        "description":
-        "You have now entered the high-tech Kronstadt Building." +
-        " A robot greets you as you enter.",
-        "interactables": ["Wrench", "Hammer"],
-    },
-    (2, 0): {
-        "description": "You are now in the Marquez Family Mansion",
-        "interactables": ["Guard", "Ted Mendez"],
-    },
-    (2, 1): {
-        "description":
-        "Want to relax? Well you're in the right place, The V.I.P Area.",
-        "interactables":
-        ["Bar", "Watch the Race", "Poison Sierra Knox's Drink"],
-        "conditional_interactable" : ["Sierra Knox"]
-    },
-    (2, 2): {
-        "description":
-        "You are now in the The Finish Line pit stop. You see a car with suspicious" +
-        " enhancements",
-        "interactables": ["Racing Car", "Screwdriver"],
-    },
-    (2, 3): {
-        "description": "You entered the Android Soldier Testing room." +
-        "There you see your target Robert Knox",
-        "interactables": ["Robert Knox"],
-    }
-}#Room description and interactables
+#Room description and interactables
 
 targets = 0
 poisoned_drink = False
@@ -99,31 +28,11 @@ game_map.print_map()
 game_inventory = Inventory()
 game_interact = Interact()
 
-
+current_position = (0, 0)
 max_x = len(map_table) - 1  #Player positions
 max_y = len(map_table[0]) - 1  #Player Positions
 
 #FUNCTIONS------------------------------------------------------------------------------    
-def increment_targets():
-    """
-    This functions add 1 to the global variable target, to 
-    ensure if the mission has been complete or not.
-    """
-    global targets
-    targets += 1
-
-
-def check_killed_targets():
-    """
-    This function checks if both the targets have been killed or not.
-    """
-
-    global targets
-    if targets == 2:
-        print("Mission Accomplished. Good Work.")
-        return True
-    return False
-
 def display_room_info(current_position):
     """
     This function will show the user the interactables and description of the room
@@ -131,7 +40,7 @@ def display_room_info(current_position):
     """
     if current_position in map_description:
         room_info = map_description[current_position]
-        interactables = room_info["interactables"][:]
+        interactables = room_info.get("interactables", [])[:]
 
         #Check for Sierra Knox's status
         if ("conditional interactable" in room_info and current_position == (2, 1)
@@ -139,16 +48,15 @@ def display_room_info(current_position):
                 interactables.extend(room_info["conditional_interactables"])
 
         print(room_info["description"])
-        print("Interactables:", room_info["interactables"])
+        print("Interactables:", interactables)
 
 
 def display_room_description(current_position):
     """
     This function describes the room description based on the current position.
     """
-    x, y = current_position
-    room_description = map_table[x][y]
-    print("You are in: ", room_description)
+    if current_position in map_description:
+        print(map_description[current_position]["description"])
 
 
 def move(current_position, direction, max_x, max_y):
@@ -214,9 +122,9 @@ def start_game():
         elif choice == "2":
             game_map.view_map()
         elif choice == "3":
-            game_inventory.view_inventory()
+            game_interact.inventory.view_inventory()
         elif choice == "4":
-            game_interact.interact()
+            game_interact.interact(current_position)
         elif choice == "5":
             print("Thanks for playing!")
             break

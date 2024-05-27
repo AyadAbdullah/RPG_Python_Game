@@ -1,5 +1,7 @@
 import Inventory
-import main
+from map import map_description
+
+current_position = (0, 0)
 
 
 class Interact:
@@ -10,6 +12,7 @@ class Interact:
         self.inventory = Inventory.Inventory()
         self.poisoned_drink = False
         self.racing_car_sabotaged = False
+        self.targets = 0
         self.actual_interact_list = [
             "Security Camera", "Keycard", "Safe", "Computer", "Wrench",
           "Hammer", "Poison Drink", "Poison Sierra Knox's Drink",
@@ -20,38 +23,60 @@ class Interact:
         self.character_list = ["Ted Mendez", "Robert Knox", "Sierra Knox"]
         #For character interact which allow the user to kill.
         
+    def increment_targets(self):
+      """
+      This functions add 1 to the global variable target, to 
+      ensure if the mission has been complete or not.
+      """
+      
+      self.targets += 1
+
+
+    def check_killed_targets(self):
+      """
+      This function checks if both the targets have been killed or not.
+      """
+
+      
+      if self.targets == 2:
+          print("Mission Accomplished. Good Work.")
+          return True
+      return False
         
-    def task_interact(self, action2):
+    def task_interact(self, action2, current_position):
         global poisoned_drink, racing_car_sabotaged
     
     
         if action2 == "Security Camera":
             print("You disable the camera")
+            
         elif action2 == "Keycard":
             print("You find some idiot guard's lost keycard. You pick it up")
             self.inventory.add_to_inventory("Keycard")
-            self.remove_interactable(main.current_position, "Keycard")
-        elif action2 == "Fishing Rod":
-            print("You go fishing and catch a fish.")
-            self.inventory.add_to_inventory("Fish")
+            self.remove_interactable(current_position, "Keycard")
+            
         elif action2 == "Safe":
             if "Keycard" in self.inventory.inventory:
                 print("You open the safe with the keycard and find important" + 
                 " documents.")
-                self.remove_interactable(main.current_position, "Safe")
+                self.remove_interactable(current_position, "Safe")
                 self.inventory.remove_from_inventory("Keycard")
             else:
                 print("You need a keycard to open the safe.")
+                
         elif action2 == "Computer":
             print("You hack the computer and find a photo of Robert Knox."+
                  "You print it out and keep it with you.")
             self.inventory.add_to_inventory("Robert Knox's picture")
+            
         elif action2 == "Wrench":
             self.inventory.add_to_inventory("Wrench")
-            self.remove_interactable(main.current_position, "Wrench")
+            self.remove_interactable(current_position, "Wrench")
+            
         elif action2 == "Hammer":
             self.inventory.add_to_inventory("Hammer")
-            self.remove_interactable(main.current_position, "Hammer")
+            self.remove_interactable(current_position, "Hammer")
+            
         elif action2 == "Poison Drink" or action2 == "Poison Sierra Knox's Drink":
             print("You see a VIP table with a cup that says"+
                  " 'Congrats Sierra for your win!',"+
@@ -60,14 +85,14 @@ class Interact:
     
         elif action2 == "Watch Race":
             if not self.racing_car_sabotaged:
-                print("You watch the main spectacle of the venue.")
+                print("You watch the map.spectacle of the venue.")
                 print("When the racers names are called out you see Sierra Knox,"+
                       "one of your targets")
                 print("You realise you could have sabotaged the car and killed her"+ 
-                "and made it look like an accident")
+                " and made it look like an accident")
                 print("Anyways there are more ways to kill. ( ͡❛ ͜ʖ ͡❛)✌")
             elif self.racing_car_sabotaged:
-                print("You watch the main spectacle of the venue.") 
+                print("You watch the map.spectacle of the venue.") 
                 print("When the racers names are celled out you see Sierra Knox,"+ 
                 " one of your targets")
                 print("You remember you sabotaged the racing car with the name"+ 
@@ -77,14 +102,14 @@ class Interact:
                 print("A few laps go by and all of a sudden you see Sierra Knox's"+ 
                 " car turning the corner and you see it loses control and crashes"+ 
                 " and explodes immediately. Good kill ( ͡❛ ͜ʖ ͡❛)👌")
-                main.increment_targets()
-                main.check_killed_targets()
+                self.increment_targets()
+                self.check_killed_targets()
             else:
                 pass
     
         elif action2 == "Screwdriver":
             self.inventory.add_to_inventory("Screwdriver")
-            self.remove_interactable(main.current_position, "Screwdriver")
+            self.remove_interactable(current_position, "Screwdriver")
     
         elif action2 == "Racing Car":
             print("As you decide to take a closer look at the car, you find it is none"
@@ -99,7 +124,7 @@ class Interact:
                 print("( ͡❛  ͟ʖ ͡❛)")
     
         elif action2 == "Guard":
-            weapons = ["Hammer", "Wrench", "Shovel", "Fish"] 
+            weapons = ["Hammer", "Wrench"] 
             available_weapons = [weapon for weapon in weapons if weapon in 
                                  self.inventory.inventory]
     
@@ -111,20 +136,20 @@ class Interact:
                     print(f"You beat the guard with the {kill_action} and kill him"+ 
                           " and take his disguise.")
                     self.inventory.add_to_inventory("Guard Disguise")
-                    self.remove_interactable(main.current_position, "Guard")
+                    self.remove_interactable(current_position, "Guard")
                 else:
                     print("You just punch him to death")
                     self.inventory.add_to_inventory("Guard Disguise")
-                    self.remove_interactable(main.current_position, "Guard")
+                    self.remove_interactable(current_position, "Guard")
             else:
                 print("You bring the guard to a corner and punch him to death.")
                 self.inventory.add_to_inventory("Guard Disguise")
-                self.remove_interactable(main.current_position, "Guard")
+                self.remove_interactable(current_position, "Guard")
     
         else:
             print("Not a valid interactable object")
     
-    def general_interact_character(self, character):
+    def general_interact_character(self, character, current_position):
         """
         This function will control what happens when the user
         interacts with differents characters/targets.
@@ -149,7 +174,7 @@ class Interact:
                     " body in the"
                     + " leaf shredder.")
                 self.inventory.add_to_inventory("Ted Mendez Disguise")
-                self.remove_interactable(main.current_position, "Ted Mendez")
+                self.remove_interactable(current_position, "Ted Mendez")
             elif choice2 == 2:
                 print("You leave him alone.")
             else:
@@ -169,20 +194,20 @@ class Interact:
                     "You give the picture to the Android Soldier and it identifies"
                     + " him as target and shoots him to oblivion.")
                 print("Good work, you killed one of your targets.")
-                main.increment_targets()
-                main.check_killed_targets()
-                self.remove_interactable(main.current_position, "Robert Knox")
+                self.increment_targets()
+                self.check_killed_targets()
+                self.remove_interactable(current_position, "Robert Knox")
             elif "Guard Disguise" in self.inventory.inventory:
                 print("You escort Robert Knox to safe room as a safetly protocol.")
                 print("Then you get him to isolate there")
                 print(
                     "You then proceed to assassinate him and dispose of the body.")
                 print("Good work, you killed one of your targets.")
-                main.increment_targets()
-                main.check_killed_targets()
-                self.remove_interactable(main.current_position, "Robert Knox")
+                self.increment_targets()
+                self.check_killed_targets()
+                self.remove_interactable(current_position, "Robert Knox")
             else:
-                print("You get caught without having a disguise.")
+                print("You get caught without having a disguise or the picture.")
                 print("Mission Failed.☹️")
                 exit()
     
@@ -193,35 +218,36 @@ class Interact:
                 print(
                     "You then proceed to assassinate him and dispose of the body.")
                 print("Good work, you killed one of your targets.")
-                main.increment_targets()
-                main.check_killed_targets()
-                self.remove_interactable(main.current_position, "Sierra Knox")
+                self.increment_targets()
+                self.check_killed_targets()
+                self.remove_interactable(current_position, "Sierra Knox")
     
             elif self.poisoned_drink:
                 print(
                     "Sierra Knox drinks the poisoned drink that you poisoned earlier")
                 print("Good work, you kill one of your targets")
-                main.increment_targets()
-                main.check_killed_targets()
-                self.remove_interactable(main.current_position, "Sierra Knox")
+                self.increment_targets()
+                self.check_killed_targets()
+                self.remove_interactable(current_position, "Sierra Knox")
     
 
     
-    def interact(self):
+    def interact(self, current_position):
         user_interact = input("Which objects/character would you like to interact?")
         if user_interact in self.actual_interact_list:
-            self.task_interact(user_interact)
+            self.task_interact(user_interact, current_position)
         elif user_interact in self.character_list:
-            self.general_interact_character(user_interact)
+            self.general_interact_character(user_interact, current_position)
         else:
             print("Invalid interactable")
     
     
-    def remove_interactable(self, current_position1, interactable):
+    def remove_interactable(self, current_position, interactable):
         """
         Remove an interactable object/character after interacted with
         """
-        if current_position1 in main.map_description:
-            room_info = main.map_description[main.current_position]
-            if interactable in room_info["interactables"]:
-                room_info["interactables"].remove(interactable)
+        room_info = map_description.get(current_position)
+        if room_info:    
+            interactables = room_info.get("interactables", [])
+            if interactable in interactables:
+                interactables.remove(interactable)
