@@ -76,52 +76,10 @@ class Interact:
         elif action2 == "Hammer":
             self.inventory.add_to_inventory("Hammer")
             self.remove_interactable(current_position, "Hammer")
-            
-        elif action2 == "Poison Drink" or action2 == "Poison Sierra Knox's Drink":
-            print("You see a VIP table with a cup that says"+
-                 " 'Congrats Sierra for your win!',"+
-                 " knowing she is your target you poison the drink in secret.")
-            self.poisoned_drink = True
-    
-        elif action2 == "Watch Race":
-            if not self.racing_car_sabotaged:
-                print("You watch the map.spectacle of the venue.")
-                print("When the racers names are called out you see Sierra Knox,"+
-                      "one of your targets")
-                print("You realise you could have sabotaged the car and killed her"+ 
-                " and made it look like an accident")
-                print("Anyways there are more ways to kill. ( ͡❛ ͜ʖ ͡❛)✌")
-            elif self.racing_car_sabotaged:
-                print("You watch the map.spectacle of the venue.") 
-                print("When the racers names are celled out you see Sierra Knox,"+ 
-                " one of your targets")
-                print("You remember you sabotaged the racing car with the name"+ 
-                " Sierra Knox.")
-                print("You smile and wait for the fun to happen")
-                print("As soon as the announcer says GO! nothing happens.")
-                print("A few laps go by and all of a sudden you see Sierra Knox's"+ 
-                " car turning the corner and you see it loses control and crashes"+ 
-                " and explodes immediately. Good kill ( ͡❛ ͜ʖ ͡❛)👌")
-                self.increment_targets()
-                self.check_killed_targets()
-            else:
-                pass
-    
+        
         elif action2 == "Screwdriver":
             self.inventory.add_to_inventory("Screwdriver")
             self.remove_interactable(current_position, "Screwdriver")
-    
-        elif action2 == "Racing Car":
-            print("As you decide to take a closer look at the car, you find it is none"
-                 + " other than Sierra Knox's, one of your targets?")
-            sabotage = input("What do you want to do? sabotage or pass?").lower()
-    
-            if sabotage == "sabotage":
-                print("You sabotaged the car, now you can wait and see what will"+ 
-                " happen when you watch the race.")
-                racing_car_sabotaged = True
-            else:
-                print("( ͡❛  ͟ʖ ͡❛)")
     
         elif action2 == "Guard":
             weapons = ["Hammer", "Wrench"] 
@@ -213,22 +171,17 @@ class Interact:
     
         elif character == "Sierra Knox":
             if "Guard Disguise" in self.inventory.inventory:
-                print("You escort Robert Knox to safe room as a safetly protocol.")
+                print("You escort Sierra Knox to a safe room as a safely protocol.")
                 print("Then you get him to isolate there")
                 print(
-                    "You then proceed to assassinate him and dispose of the body.")
+                    "You then proceed to assassinate her and dispose of the body.")
                 print("Good work, you killed one of your targets.")
                 self.increment_targets()
                 self.check_killed_targets()
                 self.remove_interactable(current_position, "Sierra Knox")
     
-            elif self.poisoned_drink:
-                print(
-                    "Sierra Knox drinks the poisoned drink that you poisoned earlier")
-                print("Good work, you kill one of your targets")
-                self.increment_targets()
-                self.check_killed_targets()
-                self.remove_interactable(current_position, "Sierra Knox")
+            else:
+                print("Invalid")
     
 
     

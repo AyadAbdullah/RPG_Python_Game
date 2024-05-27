@@ -54,14 +54,13 @@ map_description = {
     "description":
     "Want to relax? Well you're in the right place, The V.I.P Area.",
     "interactables":
-    ["Watch the Race", "Poison Sierra Knox's Drink"],
-    "conditional_interactable" : ["Sierra Knox"]
+    ["Sierra Knox"],
     },
     (2, 2): {
     "description":
     "You are now in the The Finish Line pit stop. You see a car with suspicious" +
     " enhancements",
-    "interactables": ["Racing Car", "Screwdriver"],
+    "interactables": ["Screwdriver"],
     },
     (2, 3): {
     "description": "You entered the Android Soldier Testing room." +

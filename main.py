@@ -20,63 +20,64 @@ from map import Map, map_description, map_table
 #Room description and interactables
 
 targets = 0
-poisoned_drink = False
-racing_car_sabotaged = False
 
 game_map = Map(map_table)
 game_map.print_map()
 game_inventory = Inventory()
 game_interact = Interact()
 
+
 current_position = (0, 0)
 max_x = len(map_table) - 1  #Player positions
 max_y = len(map_table[0]) - 1  #Player Positions
 
 #FUNCTIONS------------------------------------------------------------------------------    
-def display_room_info(current_position):
-    """
-    This function will show the user the interactables and description of the room
-    they enter.
-    """
-    if current_position in map_description:
-        room_info = map_description[current_position]
-        interactables = room_info.get("interactables", [])[:]
+class Move:
+    def __init__(self):
+        pass
+    def display_room_info(self, current_position):
+        """
+        This function will show the user the interactables and description of the room
+        they enter.
+        """
+        if current_position in map_description:
+            room_info = map_description[current_position]
+            interactables = room_info.get("interactables", [])[:]
+    
+            print(room_info["description"])
+            print("Interactables:", interactables)
+    
+    
+    def display_room_description(self, current_position):
+        """
+        This function describes the room description based on the current position.
+        """
+        if current_position in map_description:
+            print(map_description[current_position]["description"])
+    
+    
+    def move(self, current_position, direction, max_x, max_y):
+        """
+        This function controls the movement of the player. Also makes sure
+        that the user doesn't move outside the boundaries of the map.
+        """
+        x, y = current_position
+        if direction == "north" and x > 0:
+            current_position = (x - 1, y)
+        elif direction == "south" and x < max_x:
+            current_position = (x + 1, y)
+        elif direction == "west" and y > 0:
+            current_position = (x, y - 1)
+        elif direction == "east" and y < max_y:
+            current_position = (x, y + 1)
+        else:
+            print("You cannot move in that direction")
+        return current_position
+class Player(Inventory, Interact, Move):
+    def __init__(self):
+        super().__init__()
 
-        #Check for Sierra Knox's status
-        if ("conditional interactable" in room_info and current_position == (2, 1)
-            and  not (poisoned_drink or racing_car_sabotaged)):
-                interactables.extend(room_info["conditional_interactables"])
-
-        print(room_info["description"])
-        print("Interactables:", interactables)
-
-
-def display_room_description(current_position):
-    """
-    This function describes the room description based on the current position.
-    """
-    if current_position in map_description:
-        print(map_description[current_position]["description"])
-
-
-def move(current_position, direction, max_x, max_y):
-    """
-    This function controls the movement of the player. Also makes sure
-    that the user doesn't move outside the boundaries of the map.
-    """
-    x, y = current_position
-    if direction == "north" and x > 0:
-        current_position = (x - 1, y)
-    elif direction == "south" and x < max_x:
-        current_position = (x + 1, y)
-    elif direction == "west" and y > 0:
-        current_position = (x, y - 1)
-    elif direction == "east" and y < max_y:
-        current_position = (x, y + 1)
-    else:
-        print("You cannot move in that direction")
-    return current_position
-
+game_move = Move()
 
 def user_message():
     "Just a user message that tells user what to do."
@@ -92,12 +93,13 @@ def user_message():
     print("Thanks for reading, hope you enjoy. \n\n\n\n")
 
 
+
 def start_game():
     """
     This function starts the game.
     """
 
-    global current_position
+    global current_position, game_move
     user_message()
     print("Welcome to Hitman 2: The Text Adventure!")
     print("You are Agent 47, a highly skilled assasin")
@@ -105,7 +107,7 @@ def start_game():
     print("Be cautious and plan your moves carefully")
 
     while True:
-        display_room_info(current_position)
+        game_move.display_room_info(current_position)
         print("What do you want to do?")
         print("1. Move")
         print("2. View Map")
@@ -118,7 +120,7 @@ def start_game():
                 "Which direction do you want to move?(north, south, east, west)"
             )
             action = input().lower()
-            current_position = move(current_position, action, max_x, max_y)
+            current_position = game_move.move(current_position, action, max_x, max_y)
         elif choice == "2":
             game_map.view_map()
         elif choice == "3":
