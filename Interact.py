@@ -36,11 +36,9 @@ class Interact:
       """
       This function checks if both the targets have been killed or not.
       """
-
-      
       if self.targets == 2:
-          print("Mission Accomplished. Good Work.")
-          return True
+          print("Mission Accomplished.")
+          exit()
       return False
         
     def task_interact(self, action2, current_position):
